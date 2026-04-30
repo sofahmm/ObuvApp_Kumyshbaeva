@@ -1,0 +1,73 @@
+﻿<Page x:Class="ObuvApp_Kumyshbaeva.Pages.AuthorizationPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ObuvApp_Kumyshbaeva.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="AuthorizationPage">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Column="1"
+               Grid.ColumnSpan="2"
+               Text="Авторизация"
+               FontSize="28"
+               VerticalAlignment="Center"
+               HorizontalAlignment="Center"/>
+        <TextBlock Text="Логин: "
+               Grid.Row="1"
+               Grid.Column="1"
+               FontSize="30"
+               VerticalAlignment="Center"
+               HorizontalAlignment="Right"/>
+        <TextBlock Text="Пароль: "
+               Grid.Row="2"
+               Grid.Column="1"
+               FontSize="30"
+               VerticalAlignment="Center"
+               HorizontalAlignment="Right"/>
+
+        <TextBox Grid.Row="1"
+             Grid.Column="2"
+             Grid.ColumnSpan="2"
+             Height="50"
+             Width="220"
+             HorizontalAlignment="Left"
+             VerticalContentAlignment="Center"
+             FontSize="18"
+             Name="loginTb"/>
+        <PasswordBox Grid.Row="2"
+                 Grid.Column="2"
+                 Grid.ColumnSpan="2"
+                 Height="50"
+                 Width="220"
+                 HorizontalAlignment="Left"
+                 VerticalContentAlignment="Center"
+                 FontSize="18"
+                 Name="passwordPb"/>
+        <Button Name="loginBtn"
+            Click="loginBtn_Click"
+            Grid.Row="3"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            Height="70"
+            Width="150"
+            Content="войти"
+            FontSize="22"
+            Background="#7FFF00"/>
+    </Grid>
+</Page>
