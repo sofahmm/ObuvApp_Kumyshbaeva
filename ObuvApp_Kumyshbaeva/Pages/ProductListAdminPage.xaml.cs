@@ -1,4 +1,5 @@
 ﻿using ObuvApp_Kumyshbaeva.DbConnection;
+using ObuvApp_Kumyshbaeva.Windows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,7 +69,8 @@ namespace ObuvApp_Kumyshbaeva.Pages
 
         private void AddBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            AddProductWindow addProductWindow = new AddProductWindow();
+            addProductWindow.Show();
         }
     }
 }
