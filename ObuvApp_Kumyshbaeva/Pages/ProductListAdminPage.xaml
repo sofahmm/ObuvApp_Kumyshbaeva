@@ -4,9 +4,14 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ObuvApp_Kumyshbaeva.Pages"
+      xmlns:conv="clr-namespace:ObuvApp_Kumyshbaeva.Converters"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ProductListAdminPage">
+    <Page.Resources>
+        <conv:RowBackgroundConverter x:Key="RowBackgroundConverter"/>
+        <local:TextDecoration x:Key="TextDecoration"/>
+    </Page.Resources>
 
     <Grid Background="#7FFF00">
         <Grid.ColumnDefinitions>
@@ -73,6 +78,12 @@
               Name="productsLv"
           Grid.RowSpan="4"
           ItemsSource="{Binding products}">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Background"
+                            Value="{Binding Converter={StaticResource RowBackgroundConverter}}"/>
+                </Style>
+            </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Border BorderBrush="Black"
@@ -108,13 +119,19 @@
                                FontSize="18"/>
                                 <TextBlock Text="{Binding Supplier.Name, StringFormat={}Поставщик: {0}}"
                                FontSize="18"/>
-                                <TextBlock Text="{Binding Price, StringFormat={}Цена: {0}}"
+                                <TextBlock Text="{Binding Price, StringFormat={}Цена: {0}, Converter={StaticResource TextDecoration}}"
                                FontSize="18"/>
                                 <TextBlock Text="{Binding Unit.Name, StringFormat={}Единица измерения: {0}}"
                                FontSize="18"/>
                                 <TextBlock Text="{Binding WorkshopCount, StringFormat={}Количество на складе: {0}}"
                                FontSize="18"/>
                             </StackPanel>
+
+                            <TextBlock Text="{Binding ActiveDiscount}"
+                                       Grid.Column="2"
+                                       FontSize="30"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
                         </Grid>
                     </Border>
                 </DataTemplate>

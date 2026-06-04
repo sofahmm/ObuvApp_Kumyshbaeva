@@ -2,6 +2,7 @@
 using ObuvApp_Kumyshbaeva.Windows;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -81,6 +82,21 @@ namespace ObuvApp_Kumyshbaeva.Pages
                 EditProductWindow editProductWindow = new EditProductWindow(product);
                 editProductWindow.Show();
             }
+        }
+    }
+    public class TextDecoration : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            Product product = value as Product;
+            if (product.Price.Value != product.NewPrice.Value)
+                return TextDecorations.Strikethrough;
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 }
