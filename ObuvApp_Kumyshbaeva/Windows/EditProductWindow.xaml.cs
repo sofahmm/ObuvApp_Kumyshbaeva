@@ -16,28 +16,54 @@ using System.Windows.Shapes;
 namespace ObuvApp_Kumyshbaeva.Windows
 {
     /// <summary>
-    /// Логика взаимодействия для AddProductWindow.xaml
+    /// Логика взаимодействия для EditProductWindow.xaml
     /// </summary>
-    public partial class AddProductWindow : Window
+    public partial class EditProductWindow : Window
     {
-        public static List<ProductCategory> productCategories {  get; set; } 
-        public static List<Manufacturer> manufacturers{  get; set; }
-        public static List<Supplier> suppliers{  get; set; }
-        public static List<Unit> units{ get; set; }
-
-        public AddProductWindow()
+        Product product = new Product();
+        public static List<ProductCategory> categories {  get; set; }
+        public static List<Manufacturer> manufacturers { get; set; }
+        public static List<Supplier> suppliers { get; set; }    
+        public static List<Unit> units { get; set; }
+        public EditProductWindow(Product product1)
         {
             InitializeComponent();
-            productCategories = new List<ProductCategory>(ConnectionString.obuvDb.ProductCategory.ToList());
-            manufacturers = new List<Manufacturer>(ConnectionString.obuvDb.Manufacturer.ToList());
-            suppliers = new List<Supplier>(ConnectionString.obuvDb.Supplier.ToList());
-            units = new List<Unit>(ConnectionString.obuvDb.Unit.ToList());
+            categories = new List<ProductCategory>
+                (ConnectionString.obuvDb.ProductCategory.ToList());
+
+            manufacturers = new List<Manufacturer>
+                (ConnectionString.obuvDb.Manufacturer.ToList()); 
+            
+            suppliers = new List<Supplier>
+                (ConnectionString.obuvDb.Supplier.ToList());
+            units = new List<Unit>
+                (ConnectionString.obuvDb.Unit.ToList());
+
+            product = product1; //ОБЯЗАТЕЛЬНО!!!!!!!!!!!!!!!!!
+
+            nameProdTb.Text = product.Name;
+            descriptionTb.Text = product.Description;
+            discountTb.Text = product.ActiveDiscount.ToString();
+            priceTb.Text = product.Price.ToString();
+            wshCountTb.Text = product.WorkshopCount.ToString();
+
+            categoryCmb.SelectedItem = categories.
+                FirstOrDefault(i => i.Name == product.ProductCategory.Name);
+
+            manufacturerCmb.SelectedItem = manufacturers.
+                FirstOrDefault(i => i.Name == product.Manufacturer.Name);
+
+            supplierCmb.SelectedItem = suppliers.
+                FirstOrDefault(i => i.Name == product.Supplier.Name);
+
+            unitTb.SelectedItem = units.
+                FirstOrDefault(i => i.Name == product.Unit.Name);
+
             this.DataContext = this;
         }
 
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
-            Product product = new Product();
             if (nameProdTb.Text != string.Empty && categoryCmb.SelectedItem != null
                 && descriptionTb.Text != string.Empty && manufacturerCmb.SelectedItem != null
                 && supplierCmb.SelectedItem != null && priceTb.Text != string.Empty
@@ -54,7 +80,6 @@ namespace ObuvApp_Kumyshbaeva.Windows
                 product.WorkshopCount = Convert.ToInt32(wshCountTb.Text.Trim());
                 product.IdUnit = ((Unit)unitTb.SelectedItem).Id;
 
-                ConnectionString.obuvDb.Product.Add(product);
                 ConnectionString.obuvDb.SaveChanges();
                 MessageBox.Show("успех");
             }

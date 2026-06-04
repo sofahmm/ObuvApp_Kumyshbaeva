@@ -68,6 +68,7 @@
              Name="SearchProductTb"
              TextChanged="SearchProductTb_TextChanged"/>
         <ListView Grid.Row="2"
+                  SelectionChanged="productsLv_SelectionChanged"
           Grid.ColumnSpan="6"
               Name="productsLv"
           Grid.RowSpan="4"
@@ -127,7 +128,7 @@
             Background="#00FA9A"/>
         <Button x:Name="AddBtn"
                 Grid.Column="1"
-                Content="Добавить"
+                Content="Добавить товар"
                 FontSize="18"
                 Click="AddBtn_Click"/>
     </Grid>

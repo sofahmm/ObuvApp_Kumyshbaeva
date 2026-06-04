@@ -72,5 +72,15 @@ namespace ObuvApp_Kumyshbaeva.Pages
             AddProductWindow addProductWindow = new AddProductWindow();
             addProductWindow.Show();
         }
+
+        private void productsLv_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var product = productsLv.SelectedItem as Product;
+            if (product != null)
+            {
+                EditProductWindow editProductWindow = new EditProductWindow(product);
+                editProductWindow.Show();
+            }
+        }
     }
 }
