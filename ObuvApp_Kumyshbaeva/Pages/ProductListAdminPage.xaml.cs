@@ -30,12 +30,15 @@ namespace ObuvApp_Kumyshbaeva.Pages
         public static Supplier currentSupplier = null;
         public static string searchCurrent = "";
         public static string currentSort = "Все поставщики";
-        public ProductListAdminPage()
+        public ProductListAdminPage(USer uSer)
         {
             InitializeComponent();
             products = new List<Product>(ConnectionString.obuvDb.Product.ToList());
             suppliers = new List<Supplier>(ConnectionString.obuvDb.Supplier.ToList());
             suppliers.Insert(0, new Supplier { Id = -1, Name = "Все поставщики" });
+
+            FIOTbl.Text = $"Администратор: {uSer.FIO}";
+
             this.DataContext = this;
         }
 

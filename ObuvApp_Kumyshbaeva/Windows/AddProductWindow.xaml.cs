@@ -27,7 +27,6 @@ namespace ObuvApp_Kumyshbaeva.Windows
         public static List<Supplier> suppliers{  get; set; }
         public static List<Unit> units{ get; set; }
 
-        //public string _projectDirectory = "C:\\Users\\Student\\source\\repos\\ObuvApp_Kumyshbaeva\\ObuvApp_Kumyshbaeva\\Resources\\";//'
         private string _selectedPhototPath = null;
 
         public AddProductWindow()

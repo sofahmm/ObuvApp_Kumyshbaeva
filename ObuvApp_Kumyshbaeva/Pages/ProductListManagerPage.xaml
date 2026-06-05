@@ -31,7 +31,12 @@
                FontSize="22"
                HorizontalAlignment="Center"
               VerticalAlignment="Center"/>
-        
+        <TextBlock Grid.Column="4"
+                   Name="FIOTbl"
+                   TextWrapping="Wrap"
+           FontSize="22"
+           HorizontalAlignment="Center"
+          VerticalAlignment="Center"/>
         <Image Source="/Resources/Icon.png"/>
         <ComboBox Name="SupplierCmb"
                   ItemsSource="{Binding suppliers}"

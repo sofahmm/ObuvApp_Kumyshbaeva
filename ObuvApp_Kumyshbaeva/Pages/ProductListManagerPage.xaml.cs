@@ -23,12 +23,14 @@ namespace ObuvApp_Kumyshbaeva.Pages
     {
         public static List<Product> products { get; set; }
         public static List<Supplier> suppliers { get; set; }
-        public ProductListManagerPage()
+        public ProductListManagerPage(USer uSer)
         {
             InitializeComponent();
             products = new List<Product>(ConnectionString.obuvDb.Product.ToList());
             suppliers = new List<Supplier>(ConnectionString.obuvDb.Supplier.ToList());
             suppliers.Insert(0, new Supplier { Id = -1, Name = "Все поставщики" });
+            FIOTbl.Text = $"Менеджер: {uSer.FIO}";
+
             this.DataContext = this;
         }
 

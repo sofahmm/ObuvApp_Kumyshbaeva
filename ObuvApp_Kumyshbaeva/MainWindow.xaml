@@ -9,7 +9,29 @@
         Icon="/Resources/Icon.ico"
         Height="450" Width="800">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
         <Frame Name="navFrame"
-               NavigationUIVisibility="Hidden"/>
+               NavigationUIVisibility="Hidden"
+               Grid.ColumnSpan="8"
+               Grid.RowSpan="8"/>
     </Grid>
 </Window>

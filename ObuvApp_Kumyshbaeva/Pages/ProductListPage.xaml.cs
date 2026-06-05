@@ -22,10 +22,11 @@ namespace ObuvApp_Kumyshbaeva.Pages
     public partial class ProductListPage : Page
     {
         public static List<Product> products { get; set; } 
-        public ProductListPage()
+        public ProductListPage(USer uSer)
         {
             InitializeComponent();
             products = new List<Product>(ConnectionString.obuvDb.Product.ToList());
+            FIOTbl.Text = $"Пользователь: {uSer.FIO}";
             this.DataContext = this;
         }
     }

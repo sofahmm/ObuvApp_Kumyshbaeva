@@ -39,11 +39,14 @@ namespace ObuvApp_Kumyshbaeva.Pages
                 MessageBox.Show("Авторизация прошла успешно 👍");
                 //разграничение по ролям
                 if(currentUser.IdRole == 1)
-                    NavigationService.Navigate(new ProductListAdminPage());
+                {
+                    NavigationService.Navigate(new ProductListAdminPage(currentUser));
+
+                }
                 else if(currentUser.IdRole == 2)
-                    NavigationService.Navigate(new ProductListManagerPage());
+                    NavigationService.Navigate(new ProductListManagerPage(currentUser));
                 else
-                    NavigationService.Navigate(new ProductListPage());
+                    NavigationService.Navigate(new ProductListPage(currentUser));
             }
             else
                 MessageBox.Show("Авторизация не прошла успешно ");
