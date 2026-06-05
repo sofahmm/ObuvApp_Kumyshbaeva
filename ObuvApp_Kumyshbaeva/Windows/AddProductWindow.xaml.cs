@@ -26,7 +26,8 @@ namespace ObuvApp_Kumyshbaeva.Windows
         public static List<Manufacturer> manufacturers{  get; set; }
         public static List<Supplier> suppliers{  get; set; }
         public static List<Unit> units{ get; set; }
-        public string _projectDirectory = "C:\\Users\\Student\\source\\repos\\ObuvApp_Kumyshbaeva\\ObuvApp_Kumyshbaeva\\Resources\\";//'
+
+        //public string _projectDirectory = "C:\\Users\\Student\\source\\repos\\ObuvApp_Kumyshbaeva\\ObuvApp_Kumyshbaeva\\Resources\\";//'
         private string _selectedPhototPath = null;
 
         public AddProductWindow()
@@ -57,11 +58,15 @@ namespace ObuvApp_Kumyshbaeva.Windows
                 product.ActiveDiscount = Convert.ToInt32(discountTb.Text.Trim());
                 product.WorkshopCount = Convert.ToInt32(wshCountTb.Text.Trim());
                 product.IdUnit = ((Unit)unitTb.SelectedItem).Id;
+
                 if (!string.IsNullOrEmpty(_selectedPhototPath))
                 {
                     product.Photo = SavePhoto(_selectedPhototPath);
                 }
-                ConnectionString.obuvDb.Product.Add(product);
+                else
+                    { product.Photo = null; }
+
+                    ConnectionString.obuvDb.Product.Add(product);
                 ConnectionString.obuvDb.SaveChanges();
                 MessageBox.Show("успех");
             }
@@ -85,9 +90,9 @@ namespace ObuvApp_Kumyshbaeva.Windows
         {
 
             string fullPath = System.IO.Path.GetFullPath(sourcePath);
-            string fileExtension = System.IO.Path.GetFileName(fullPath);
+            string fileName = System.IO.Path.GetFileName(fullPath);
 
-            return $"/Resources/{fileExtension}";
+            return $"/Resources/{fileName}";
         }
     }
 }
