@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -12,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Microsoft.Win32;
 
 namespace ObuvApp_Kumyshbaeva.Windows
 {
@@ -24,6 +26,8 @@ namespace ObuvApp_Kumyshbaeva.Windows
         public static List<Manufacturer> manufacturers{  get; set; }
         public static List<Supplier> suppliers{  get; set; }
         public static List<Unit> units{ get; set; }
+        public string _projectDirectory = "C:\\Users\\Student\\source\\repos\\ObuvApp_Kumyshbaeva\\ObuvApp_Kumyshbaeva\\Resources\\";//'
+        private string _selectedPhototPath = null;
 
         public AddProductWindow()
         {
@@ -53,13 +57,37 @@ namespace ObuvApp_Kumyshbaeva.Windows
                 product.ActiveDiscount = Convert.ToInt32(discountTb.Text.Trim());
                 product.WorkshopCount = Convert.ToInt32(wshCountTb.Text.Trim());
                 product.IdUnit = ((Unit)unitTb.SelectedItem).Id;
-
+                if (!string.IsNullOrEmpty(_selectedPhototPath))
+                {
+                    product.Photo = SavePhoto(_selectedPhototPath);
+                }
                 ConnectionString.obuvDb.Product.Add(product);
                 ConnectionString.obuvDb.SaveChanges();
                 MessageBox.Show("успех");
             }
             else
                 MessageBox.Show("Заполните все поля");
+        }
+
+        private void ChoosePhotoBtn_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Изображения|*.jpg;*jpeg;*png";
+            openFileDialog.Title = "Выберите фото товара";
+
+            if(openFileDialog.ShowDialog() == true)
+            {
+               _selectedPhototPath = openFileDialog.FileName;
+                productImage.Source = new BitmapImage(new Uri(_selectedPhototPath));
+            }
+        }
+        private string SavePhoto(string sourcePath)
+        {
+
+            string fullPath = System.IO.Path.GetFullPath(sourcePath);
+            string fileExtension = System.IO.Path.GetFileName(fullPath);
+
+            return $"/Resources/{fileExtension}";
         }
     }
 }
