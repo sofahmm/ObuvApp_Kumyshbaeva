@@ -33,12 +33,13 @@ namespace ObuvApp_Kumyshbaeva.DbConnection
         public string Photo { get; set; }
         public double? NewPrice {
             get {
-                if (ActiveDiscount != 0)
-                    return Price * ActiveDiscount / 100;
+                if (ActiveDiscount.HasValue && ActiveDiscount.Value > 0 && Price.HasValue)
+                    return Price - Price * ActiveDiscount / 100;
                 else
                     return Price;
             }
         }
+        public bool HasDiscount => ActiveDiscount.HasValue && ActiveDiscount > 0;
 
         public virtual Manufacturer Manufacturer { get; set; }
         public virtual ProductCategory ProductCategory { get; set; }

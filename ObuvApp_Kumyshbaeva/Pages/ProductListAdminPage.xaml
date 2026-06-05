@@ -10,7 +10,8 @@
       Title="ProductListAdminPage">
     <Page.Resources>
         <conv:RowBackgroundConverter x:Key="RowBackgroundConverter"/>
-        <local:TextDecoration x:Key="TextDecoration"/>
+        <conv:BoleanToVisibillityConverter x:Key="BoleanToVisibillityConverter"/>
+        <conv:InverseBooleanToVisibillity x:Key="InverseBooleanToVisibillity"/>
     </Page.Resources>
 
     <Grid Background="#7FFF00">
@@ -107,7 +108,8 @@
                             </Image>
                             <StackPanel Grid.Column="1"
                                 Width="700">
-                                <StackPanel Orientation="Horizontal">
+                                <StackPanel Orientation="Horizontal"
+                                            Visibility="{Binding HasDiscount, Converter={StaticResource BoleanToVisibillityConverter}}">
                                     <TextBlock Text="{Binding ProductCategory.Name}"
                                    FontSize="18"/>
                                     <TextBlock Text="{Binding Name, StringFormat={} | {0}}"
@@ -119,7 +121,7 @@
                                FontSize="18"/>
                                 <TextBlock Text="{Binding Supplier.Name, StringFormat={}Поставщик: {0}}"
                                FontSize="18"/>
-                                <TextBlock Text="{Binding Price, StringFormat={}Цена: {0}, Converter={StaticResource TextDecoration}}"
+                                <TextBlock Text="{Binding Price, StringFormat={}Цена: {0}}"
                                FontSize="18"/>
                                 <TextBlock Text="{Binding Unit.Name, StringFormat={}Единица измерения: {0}}"
                                FontSize="18"/>

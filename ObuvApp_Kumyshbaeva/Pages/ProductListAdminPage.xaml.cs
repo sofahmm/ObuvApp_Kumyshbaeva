@@ -2,6 +2,7 @@
 using ObuvApp_Kumyshbaeva.Windows;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -25,6 +26,10 @@ namespace ObuvApp_Kumyshbaeva.Pages
     {
         public static List<Product> products { get; set; }
         public static List<Supplier> suppliers { get; set; }
+
+        public static Supplier currentSupplier = null;
+        public static string searchCurrent = "";
+        public static string currentSort = "Все поставщики";
         public ProductListAdminPage()
         {
             InitializeComponent();
@@ -36,31 +41,24 @@ namespace ObuvApp_Kumyshbaeva.Pages
 
         private void SupplierCmb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var sup = SupplierCmb.SelectedItem as Supplier;
-            if (sup.Id != -1)
-                productsLv.ItemsSource = products.Where(i => i.IdSupplier == sup.Id).ToList();
-            else
-                productsLv.ItemsSource = products;
+            currentSupplier = SupplierCmb.SelectedItem as Supplier;
+            ApplyFilters();
         }
 
         private void SortProductsCmb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (SortProductsCmb.SelectedItem.ToString() == "По возрастанию")
-                productsLv.ItemsSource = products.OrderBy(i => i.WorkshopCount).ToList();
-            else if (SortProductsCmb.SelectedItem.ToString() == "По убыванию")
-                productsLv.ItemsSource = products.OrderByDescending(i => i.WorkshopCount).ToList();
-            else
-                productsLv.ItemsSource = products;
+            var selectedItem = SortProductsCmb.SelectedItem as ComboBoxItem;
+            if (selectedItem != null)
+            {
+                currentSort = selectedItem.Content.ToString();
+                ApplyFilters();
+            }
         }
 
         private void SearchProductTb_TextChanged(object sender, TextChangedEventArgs e)
         {
-            productsLv.ItemsSource = products.Where(i => i.Name.ToLower().Contains(SearchProductTb.Text.ToLower()) ||
-                                            i.Description.ToLower().Contains(SearchProductTb.Text.ToLower()) ||
-                                            i.ProductCategory.Name.ToLower().Contains(SearchProductTb.Text.ToLower()) ||
-                                            i.Supplier.Name.ToLower().Contains(SearchProductTb.Text.ToLower()) ||
-                                            i.Manufacturer.Name.ToLower().Contains(SearchProductTb.Text.ToLower())).ToList();
-
+            searchCurrent = SearchProductTb.Text;
+            ApplyFilters();
         }
 
         private void OrderBtn_Click(object sender, RoutedEventArgs e)
@@ -83,20 +81,34 @@ namespace ObuvApp_Kumyshbaeva.Pages
                 editProductWindow.Show();
             }
         }
-    }
-    public class TextDecoration : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        private void ApplyFilters()
         {
-            Product product = value as Product;
-            if (product.Price.Value != product.NewPrice.Value)
-                return TextDecorations.Strikethrough;
-            return null;
-        }
+            List<Product> filteredProducts = products;
+            //ФИЛЬТРАЦИЯ
+            if (currentSupplier != null && currentSupplier.Id != -1)
+                filteredProducts = filteredProducts.Where(i => i.IdSupplier == currentSupplier.Id).ToList();
+            else
+                filteredProducts = products;
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
+            //ПОИСК
+            if (!string.IsNullOrWhiteSpace(searchCurrent))
+            {
+                    filteredProducts = filteredProducts.Where(i => i.Name.ToLower().Contains(SearchProductTb.Text.ToLower()) ||
+                                                    i.Description.ToLower().Contains(SearchProductTb.Text.ToLower()) ||
+                                                    i.ProductCategory.Name.ToLower().Contains(SearchProductTb.Text.ToLower()) ||
+                                                    i.Supplier.Name.ToLower().Contains(SearchProductTb.Text.ToLower()) ||
+                                                    i.Manufacturer.Name.ToLower().Contains(SearchProductTb.Text.ToLower())).ToList();
+            }
+            //СОРТИРОВКА
+            if (currentSort == "По возрастанию")
+                filteredProducts = filteredProducts.OrderBy(i => i.WorkshopCount).ToList();
+            else if (currentSort == "По убыванию")
+                filteredProducts = filteredProducts.OrderByDescending(i => i.WorkshopCount).ToList();
+            else
+                filteredProducts = filteredProducts;
+
+            productsLv.ItemsSource = filteredProducts;
         }
     }
+   
 }
